@@ -1,0 +1,714 @@
+//calculate other fields into new field
+ALTER TABLE customer ADD fullname2 AS (first_name || ' ' || last_name);
+
+update customer set fullname2 = first_name || last_name
+
+https://www.youtube.com/watch?v=vusUfPBsggw
+
+//CASE query
+SELECT 
+  stock_name, 
+  SUM(
+    CASE 
+      WHEN operation = "Buy" THEN -1*price 
+      ELSE price
+    END
+    ) 
+  AS  capital_gain_loss
+FROM Stocks
+GROUP BY stock_name
+
+
+//Install conda tutorial
+https://www.youtube.com/watch?v=23aQdrS58e0
+
+Python path 
+C:\Users\nguyethome\AppData\Local\Programs\Python
+C:\Users\nguyethome\AppData\Local\Programs\Python\Python36\Scripts
+
+C:\Users\nguyethome\AppData\Local\Programs\Python\Python36\python.exe
+
+//exist folder
+arcpy.Exists(path)
+
+//get folder path of dir/file path return the parent folder
+os.path.dirname(r"D:\project\workspace\Workspace") ==> D:\project\workspace
+os.path.basename("D:\project\workspace\Workspace") ==> Workspace
+
+//Create file gdb D:\project\workspace\test.gdb
+arcpy.createFileGDB_management(os.path.dirname(path), "test.gdb")
+
+//create a dict
+test = {}
+test[0] = "test1" //add an item to a dictionary
+print(test[0])  //get the value of the dictionary
+keys = [key for key in dict]  //get dictionary keys
+
+//Get indexes in a table
+def fieldHasIndex(tablename,fieldname):
+    """Check to see if a field is indexed"""
+    # http://www.maprantala.com/2011/07/05/checking-to-see-if-a-field-index-exists-using-arcpy-argis-10-0-redux/
+    if not arcpy.Exists(tablename):
+        return False
+    for iIndex in arcpy.Describe(tablename).indexes:
+        if (len(iIndex.fields)==1):
+            if (iIndex.fields[0].Name.upper() == fieldname.upper()):
+                return True
+    return False
+//ternary operator
+min = a if a < b else b
+//create a temp featureclass
+tmp_feat = arcpy.CreateScratchName("tmp", "", "featureclass", env.scratchGDB)
+arcpy.CopyFeatures_management(in_features, tmp_feat)
+
+//find a feature type of a featureclass
+lyr_feats = arcpy.MakeFeatureLayer_management(tmp_feat, "lyrFeats")
+fc_type = arcpy.Describe(lyr_feats).ShapeType
+
+//once we are done with feature layer, we need to delete it
+arcpy.Delete_management(f)
+//check to see if a field exist in a featureclass
+id_fields = arcpy.ListFields(lyr_feats, value_field) (list fields return array)
+if not id_fields //field not exist
+
+//Check to see whether a raster has raster attribute table
+if not Raster(tmp_raster).hasRAT:
+	self._logger.msg(f"Failed to create raster from {arcpy.Describe(in_features).catalogPath}",
+					 self._logger.EXCEPTION)
+	raise Exception(
+		f"Failed to create raster from {arcpy.Describe(in_features).catalogPath}"
+	)
+//make table view and add fields
+arcpy.MakeTableView_management(tmp_raster, "tvRas")
+ftype = "LONG" if out_type == "INTEGER" else "FLOAT"
+arcpy.AddField_management("tvRas", "VALUE1", ftype)
+//join using AddJoin
+            arcpy.AddJoin_management("tvRas", "VALUE", lyr_feats, oid)
+//get raster properties
+arcpy.Describe(raster)
+
+//get not raster (not bitwise operator convert value 0 to 1 and 1 to 0 and opposite sign)
+b = ~a
+
+//Determine which values in the input raster has no value
+//It will replace no data values = 1 and other cells with 0
+c = IsNull(b)
+
+//data types
+Number, int, float, Boolean: True, False , string 
+//for in and which loop
+for item in [0, 1, 2]: print(item)
+//loop for index different with other language
+for item in range(0, 19, 1):	print(item)
+//tuple, list, set
+items = [1, 2, 3] list can have duplicate
+tuples = (1,2,3) // can have duplicate, tuple immutable
+sets = {'test1', 'test2', 'test3'} no duplicate - fastest to find existence of a member in the collection
+dicts = {'first_name': 'test1', 'age': 3} no duplicate
+tuple is immutable. Therefore, store less in memory. It is faster than list
+Tuples are identified by python compiler as one immutable constant so compiler created only one entry in hash table and never changed
+Lists are mutable objects.So compiler update the entry when we update the list so it is little bit slower compare to tuple
+For just iterating over it, you would use a list.
+For looking up keys, use a dict.
+Not necessarily slower in the first instance, just that it is not what a dict is intended for.
+Looking up by key will be considerably faster (than trying to linearly find an element) if you use a dict, 
+and therefore if you are going to use the collection for that purpose, use one. Otherwise do not.
+Use set to find existence of a member in a collection. It can improve 40% – 1800% with large dataset
+https://technobeans.com/2012/04/09/performance-for-testing-memberships-list-vs-tuples-vs-sets/
+
+
+//test null
+if (item == None):
+	pass
+if not v_fields:
+	raise Exception("No fields")
+//path
+os.path.dirname(path)
+os.path.basename(path)
+os.path.normpath(folder_path)
+test_path = r"D:\project\asp\test"
+dirname = r"D:\project\asp"
+basename = test
+normpath = "D:\\project\\asp\\test"  //convert to acceptable path
+
+//tenary operator
+b_equal = true if (a == b) else false
+
+//environment properties
+env.cellsize
+env.extent
+env.outputCoordinateSystem
+env.MResolution
+env.MTolerance
+
+//Create a unique CreateScratchName path. You want to have a temp shapefile in the current folder.
+//This command will create a unique temp shapefile in the current workspace. If name "temp" is not 
+//unique, it will increment until get a unique name. We can create our own file without using scratch name
+scratch_name = arcpy.CreateScratchName("temp",
+                                       data_type="Shapefile",
+                                       workspace=arcpy.env.scratchFolder)
+									   
+//Different ways to copy features, copy rows to another featureclass, table
+commands to copy rows, copy features from one table/featureclass to another table/featureclass
+Copy Features, Copy Rows, Export Features, or Export Table.
+   arcpy.CopyFeatures_management(in_features, tmp_feat)
+   import arcpy
+	arcpy.env.workspace = "C:/data/SFValley.gdb"
+	arcpy.conversion.ExportTable("streets", "C:/output/output.gdb/streets")
+ESRI said it is recommended that you first copy the joined layer to a new feature class 
+using the Export Features tool. Why? What is the different?
+
+//Join tables with AddJoin to calculate field value in one table from the value of another table
+//input featureclass or table must be a layer/tableview, cannot be a featureclass/table
+//addjoin is slower than joinfield. 
+        arcpy.AddJoin_management(lyrCat, OID, tmp_tbl, "SourceOID")
+        expr = "!{}.PATH!".format(os.path.basename(tmp_tbl))
+        arcpy.CalculateField_management(lyrCat, "PATH", expr, "PYTHON_9.3")
+		
+//Join tables with JoinField. Input featureclass/table can be featureclass/table
+The input table is updated to contain the fields from the join table. That's why 
+Joinfield is faster than AddJoin
+The input table is updated to contain the fields from the join table
+    arcpy.JoinField_management(output_cat, "OBJECTID", tmp_table, "SourceOID", "PATH")
+   
+//to work with a feature class in memory we need to use featurelayer
+ lyr_feats = arcpy.MakeFeatureLayer_management(tmp_feat, "lyrFeats")
+
+//use list, describe to get schema properties such as fields, list raster in a workspace
+//get shapetype of a feature layer
+arcpy.Describe(lyr_feats).shapeType
+//get fields of a featureclass
+fields = arcpy.ListFields("c:/data/municipal.gdb/hospitals")
+or fields = arcpy.ListFields(lyr_feats)
+
+//check an item to see whether it exists in a list of items
+if item not in ['Polygon', 'Polyline', 'Point']:
+	print ("Invalid shapeType")
+
+//check to see if a field exist in a featureclass
+field_name = "state_name"
+p_fields = arcpy.ListFields(lyr_feats, field_name);
+if not p_fields:
+	raise Exception(f"Field {field_name} not exist in the featureclass")
+input_field = p_fields[0]
+
+//Add a field to a featureclass
+arcpy.AddField_management(lyr_feats, pr_field, "DOUBLE")
+
+//find a min value of a field in a feature layer. By default sorted reverse = false to sort ascending
+min_val = sorted(arcpy.da.UpdateCursor(lyr_feats, weight_field))[0][0]
+
+//find max value of a field in a feature layer. reverse = true sort descending
+max_val = sorted(arcpy.da.UpdateCursor(lyr_feats, weight_field), reverse=True)[0][0] ??? This will leave the cursor object
+hang in there
+
+//update cursor with geometry field SHAPE@XY. We need to delete row and cursor to 
+to guard against all locking cases according to ESRI. 
+with arcpy.da.UpdateCursor(fc, ["SHAPE@XY"]) as rows:
+	for row in rows:
+		x,y = row[0]
+		xs.append(x)
+		ys.append(y)
+    arcpy.AddField_management(fc, tile_field, "LONG")
+	with arcpy.da.UpdateCursor(fc, ["SHAPE@XY", tile_field]) as cursor:
+	for row in rows:
+		x, y = row[0]
+		xg = (1 + int(xtiles * (x - xmin) / dx))
+		yg = (1 +  int(ytiles * (ymax - y) / dy))
+		row[1] = (yg * yoff) + xg
+		cursor.updateRow(row)
+
+ESRI code
+
+arcpy.env.workspace = 'c:/data/output.gdb'
+fc = 'c:/data/base.gdb/roads'
+fields = ['ROAD_TYPE', 'BUFFER_DISTANCE']
+
+# Create update cursor for feature class 
+with arcpy.da.UpdateCursor(fc, fields) as cursor:
+    # Update the field used in Buffer so the distance is based on road 
+    # type. Road type is either 1, 2, 3, or 4. Distance is in meters. 
+    for row in cursor:
+        # Update the BUFFER_DISTANCE field to be 100 times the 
+        # ROAD_TYPE field.
+        row[1] = row[0] * 100
+        cursor.updateRow(row)
+		del row
+del cursor		
+//Search cursor
+import arcpy
+
+fc = 'c:/data/base.gdb/well'
+fields = ['WELL_ID', 'WELL_TYPE', 'SHAPE@XY']
+
+# For each row, print the WELL_ID and WELL_TYPE fields, and
+# the feature's x,y coordinates
+with arcpy.da.SearchCursor(fc, fields) as cursor:
+    for row in cursor:
+        print(u'{0}, {1}, {2}'.format(row[0], row[1], row[2]))
+		
+//search cursor with list comprehension
+get unique value with search cursor
+fc = 'c:/data/base.gdb/well'
+field = 'Diameter'
+values = [row[0] for row in arcpy.da.SearchCursor(fc, field)]  //The search cursor will not lock the db. this is safe.
+uniqueValues = set(values)
+
++ To avoid memory leak
+rows = arcpy.da.SearchCursor(fc, field)
+values = [ row[0] for row in rows]
+uniqueValues = set(values)
+del rows
+
+//using searchcursor with shape field
+rows = arcpy.da.SearchCursor(fc, field)
+Search cursors can be iterated using a for loop. Search cursors also support with statements 
+to reset iteration and aid in removal of locks. 
+However, using a del statement to delete the object or wrapping the cursor in 
+a function to have the cursor object go out of scope should be considered to guard against all locking cases.
+https://pro.arcgis.com/en/pro-app/latest/arcpy/data-access/searchcursor-class.htm
+
+with arcpy.da.SearchCursor(fc, ['OID@', 'SHAPE@AREA']) as cursor:
+    for row in cursor:
+        print('Feature {} has an area of {}'.format(row[0], row[1]))  // format compatible with both 2.7 python code and 3
+//python 3 is unicode string by default. For python 2.7 you need to put u in front of a string
+word = u"El Niño"		
+
+//insert cursor
+
+
+//create geometry of a feature using Geometry Object Point, PointGeometry, Polyline, Polygon, Multipoint
+import arcpy
+
+# Spatial reference set to GCS_WGS_1984
+spatial_reference = arcpy.SpatialReference(4326)
+pnt = arcpy.Point(-88.236, 40.096)
+pnt_geometry = arcpy.PointGeometry(pnt, spatial_reference)
+print(pnt_geometry.getGeohash(6))  # dp1k05
+
+//create a point featureclass from an array of points
+import arcpy
+
+# A list of coordinate pairs
+pointList = [[1, 2], [3, 5], [7, 3]]
+
+# Create an empty Point object
+point = arcpy.Point()
+
+# A list to hold the PointGeometry objects
+pointGeometryList = []
+
+# For each coordinate pair, populate the Point object and create a new 
+# PointGeometry object
+for pt in pointList:
+    point.X = pt[0]
+    point.Y = pt[1]
+
+    pointGeometry = arcpy.PointGeometry(point)
+    pointGeometryList.append(pointGeometry)
+
+# Create a copy of the PointGeometry objects, by using pointGeometryList as 
+# input to the CopyFeatures tool.
+arcpy.CopyFeatures_management(pointGeometryList, "c:/geometry/a.gdb/points")
+
+//create a polyline featureclass from paths of x,yg
+import arcpy
+
+# A list of features and coordinate pairs
+feature_info = [[[1, 2], [2, 4], [3, 7]],
+                [[6, 8], [5, 7], [7, 2], [9, 5]]]
+
+# A list that will hold each of the Polyline objects
+features = []
+
+for feature in feature_info:
+    # Create a Polyline object based on the array of points
+    # Append to the list of Polyline objects
+    features.append(
+        arcpy.Polyline(
+            arcpy.Array([arcpy.Point(*coords) for coords in feature])))
+
+# Persist a copy of the Polyline objects using CopyFeatures
+arcpy.CopyFeatures_management(features, "c:/geometry/polylines.shp")
+
+#get count of records in a table, a featureclass
+count = int((arcpy.GetCount_management(lyr_bnd_unit)).getOutput(0))
+
+//insert cursor notes
+When using InsertCursor on a point feature class, creating a PointGeometry and setting it to the SHAPE@ token is a 
+comparatively expensive operation. Instead, define the point feature using tokens
+such as SHAPE@XY, SHAPE@Z, and SHAPE@M for faster, more efficient access. Note that Polygon, polyline, or multipoint features 
+can only be created using the SHAPE@ token.
+
+Opening simultaneous insert or update operations on the same workspace using different cursors requires the start of an edit session.
+
+The following includes some dataset types that can only be edited within an edit session:
+
+Feature classes participating in a topology
+Feature classes participating in a geometric network
+Feature classes participating in a network dataset
+Versioned datasets in enterprise geodatabases
+Some object and feature classes with class extensions
+
+//Insert cursor with point featureclass using SHAPE@XY
+import arcpy
+# A list of values that will be used to construct new rows
+row_values = [('Anderson', (1409934.4442000017, 1076766.8192000017)),
+              ('Andrews', (752000.2489000037, 1128929.8114))]
+
+# Open an InsertCursor
+cursor = arcpy.da.InsertCursor('C:/data/texas.gdb/counties',
+                               ['NAME', 'SHAPE@XY'])
+
+# Insert new rows that include the county name and a x,y coordinate
+#  pair that represents the county center
+for row in row_values:
+    cursor.insertRow(row)
+
+# Delete cursor object
+del cursor
+
+//Insert a polyline. For Polyline, Polygon, Mutipoint use SHAPE@ and create Geometry object and assign it to SHAPE@
+# Create a polyline geometry
+array = arcpy.Array([arcpy.Point(459111.6681, 5010433.1285),
+                     arcpy.Point(472516.3818, 5001431.0808),
+                     arcpy.Point(477710.8185, 4986587.1063)])
+polyline = arcpy.Polyline(array)
+
+# Open an InsertCursor and insert the new geometry
+cursor = arcpy.da.InsertCursor('C:/data/texas.gdb/counties', ['SHAPE@'])
+cursor.insertRow([polyline])
+
+# Delete cursor object
+import arcpy
+
+# Create update cursor for feature class
+with arcpy.da.UpdateCursor("c:/base/data.gdb/roads", 
+                          ["roadtype"]) as cursor:
+    # Delete all rows that have a roads type of 4
+    for row in cursor:
+        if row[0] == 4:
+            cursor.deleteRow()
+
+//field calculator python field should be surround by !VEG_TYPE!
+import arcpy
+arcpy.env.workspace = "C:/data"
+arcpy.management.AddField("vegtable.dbf", "VEG_TYP2", "TEXT", "", "", "20")
+arcpy.management.CalculateField("vegtable.dbf", "VEG_TYP2", 
+                                '!VEG_TYPE!.split(" ")[-1]', "PYTHON3")
+	
+//convert featureclass, table, and raster to numpy and back
+
+
+//numpy https://www.youtube.com/watch?v=QUT1VHiLmmI
+get dimension: 
+a = np.array([1, 2, 3], dtype='int16')
+print(a.ndim)
+//count of row and columns
+print(a.shape)
+//get data type of the array
+a.dtype
+//get size
+a.itemsize
+//get total size
+a.nbytes
+//Access, change specific elements, rows, columns
+a = np.array([1, 2, 3, 4, 4, 5, 6, 7], [8, 9, 10, 11, 12, 13, 14])
+print(a[0, 2]) 3
+//get a specific row
+a[0, :]  //get entire row
+//get a specific columns
+a[:, 2]  [3, 7]
+//get elements with startindex:endindex:stepsize
+a[0, 1:6:2]  => [2, 4, 6]
+
+//rabbitmq tutorial
+https://www.youtube.com/watch?v=iQ4kENLfaNI&list=PLalrWAGybpB-UHbRDhFsBgXJM1g6T4IvO
+
+https://www.youtube.com/watch?v=O1-9ilDgaPc
+
+https://www.youtube.com/watch?v=IEEhzQoKtQU
+
+//kill a process
+https://superfastpython.com/kill-a-process-in-python/
+
+//Live Summary- Memory Profiler In Python- How To Effectively Check Your Code Quality With Memory
+
+https://www.youtube.com/watch?v=8Zl_IQwSVis
+https://www.youtube.com/watch?v=8qEnExGLZfY
+
+//install memory_profiler
+go to the interpreter folder. How to find path of the current interpreter in PyCharm. Open the python console
+and type
+import sys
+print(sys.executable)
+
+//run memory_profiler of a script
+In command line python -m memory_profiler test.py
+
+//copy parallel
+https://gis.stackexchange.com/questions/240495/arcpy-solution-for-copy-parallel
+https://gis.stackexchange.com/questions/224637/creating-parallel-line-in-arcgis-pro-using-arcpy/229386#229386
+
+//arcmap arcpy tiled-processing-of-large-datasets
+https://desktop.arcgis.com/en/arcmap/latest/tools/supplement/tiled-processing-of-large-datasets.htm
+
+//script to run through unique value in a field and run union
+https://community.esri.com/t5/python-questions/arcpy-script-to-loop-through-field-and-run-union/td-p/1153509
+
+//Arcpy multiprocessing examples
+https://www.e-education.psu.edu/geog489/node/2261
+
+//python tutorial
+https://www.tutorialspoint.com/python3/python_basic_operators.htm
+
+//ESRI Imagery and Raster data Introduction
+https://www.youtube.com/watch?v=dY9BOyacIx8
+
+//React best practices
+https://technostacks.com/blog/react-best-practices/
+
+//string index is slower than using string function
+sName = "Test Smith"
+sLastName = sName[-5:]
+print(sLastName)
+if sLastName != "Smith":
+    print(f'{sLastName} not Smith')
+else:
+    print(f'Smith')
+	
+if sLastName.endswith("Smith"):
+    print("It is Smith")
+else:
+    print("It is not smith")
+	
+//remove duplicate from a list and sort it
+list_test = [1, 5, 3, 6, 3, 5, 6, 1]
+list_unique = list(set(list_test))
+print(list_unique)
+[1, 3, 5, 6]
+
+//remove duplicate from a list and preserve order
+list_test = [1, 5, 3, 6, 3, 5, 6, 1]
+list_unique = list(dict.fromkeys(list_test))
+print(list_unique)
+[1, 5, 3, 6]
+
+//String format reference
+https://www.w3schools.com/python/trypython.asp?filename=demo_string_placeholder15
+
+https://www.youtube.com/watch?v=Obh4MZ2fToI
+
+//arcpro arcpy reading geometries
+https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/reading-geometries.htm
+
+//python collection
+Python Collections (Arrays)
+There are four collection data types in the Python programming language:
+
+List is a collection which is ordered and changeable. Allows duplicate members.
+Tuple is a collection which is ordered and unchangeable. Allows duplicate members.
+Set is a collection which is unordered, unchangeable*, and unindexed. No duplicate members.
+Dictionary is a collection which is ordered** and changeable. No duplicate members.
+
+//numpy array can be created with inputs
+Any sequence that can be interpreted as an ndarray. This includes nested lists, tuples, range, scalars and existing arrays.
+
+//types of sequence
+Strings
+Lists
+Tuples
+Bytes Sequences
+Bytes Arrays
+range() objects
+
+//Python with raster data
+//Python with feature data
+
+import subprocess
+p1 = subprocess.run(['ls', '-la'])
+print(p1) // will show CompletedProcess(args=['ls', '-la'], returncode=0]
+print(p1.args)
+print(p1.code)
+print(p1.stdout)
+
+//parallel python: multiprocessing with arcpy
+https://www.youtube.com/watch?v=KAzCG6C8-7g
+
+//working with feature data and numpy
+https://mediaspace.esri.com/media/t/1_tjuagboh
+https://github.com/jibin-geoprocessing/WorkingWithFeatureData
+
+//Manage data rollback with arcpy.da.Editor
+with arcpy.da.Editor(arcpy.env.workspace) as editor:
+	with arcpy.da.UpdateCursor(accidents, '', where_clause) as cursor:
+		for row in cursor:
+			arcpy.deleteRow()
+			
+//numpy array manipulation
+https://www.youtube.com/watch?v=FniLzpaSFGk
+
+//Mosh python
+https://www.youtube.com/watch?v=kqtD5dpn9C8
+
+//numpy not a number
+np.nan
+np.inf (infinitive)
+
+//list, tuples, set, dictionary
+List is a collection which is ordered and changeable. Allows duplicate members.
+Tuple is a collection which is ordered and unchangeable. Allows duplicate members.
+Set is a collection which is unordered, unchangeable*, and unindexed. No duplicate members.
+Dictionary is a collection which is ordered** and changeable. No duplicate members.
+
+//numpy
+import os
+import numpy as np
+import pandas as pd
+
+# https://www.youtube.com/watch?v=FniLzpaSFGk
+p_array_test = np.array([["phan", "test", 12], ["nguyen", "thy", 24], ["tran", "hieu", 36]])
+orders = [1, 2, 3]
+columns = ["last_name", "first_name", "age"]
+pDataFrame = pd.DataFrame(p_array_test, index=orders, columns=columns)
+
+p_array1 = [0, 1, 2, 3, 4]
+p_series1 = pd.Series(p_array1)
+p_series3 = p_series1[:3]
+
+# select all
+slice1 = p_series1[:]
+
+# append
+p_series4 = p_series1.append(p_series3)
+
+# create a series with index
+order = [1, 2, 3, 4, 5]
+p_series2 = pd.Series(p_array1, index=order)
+
+# create series from a dictionary
+dict_1 = {"a1": 1, "a2": 2, "a3": 3}
+p_series_dict = pd.Series(dict_1)
+
+# remove row
+series_5 = p_series_dict.drop("a3")
+
+# add a row
+series_6 = p_series_dict.append(pd.Series({"a4": 4}))
+
+# Series operations
+s1 = pd.Series([1, 2, 3, 4, 5, 6])
+s2 = pd.Series([7, 8, 9, 10])
+s3 = s1.add(s2)
+# print(s3)
+# print(f"min = {s3.min()}")
+# print(f"max = {s3.max()}")
+# print(f"mean = {s3.mean()}")
+
+# Create dataframe from dictionary
+dict_students = {"firstname": ["boy", None, "bo"], "last_name": ["Dang", "Tran", "Phan"],
+                 "age": [10, None, 14]}
+index = list(range(1, 4, 1))
+print(index)
+df_students = pd.DataFrame(dict_students, index=index)
+print(df_students)
+print(df_students.dtypes)
+# limit query
+print(df_students.head())  # get all records
+print(df_students.head(1))  # get first record
+# get end records
+print(df_students.tail(1))  # get the last record
+print(df_students.index)
+print(df_students.columns)
+for column in df_students.columns:
+    print(column)
+# convert dataframe to numpy array
+p_np_results = df_students.values
+print(p_np_results)
+# get statistics
+results = df_students.describe(include='all')
+# revert array
+print(df_students.T)
+
+# sort by column and slice to get sub records
+print(df_students.sort_values(by='last_name')[:2])
+# get data with selected columns
+print(df_students[["firstname", "last_name"]])
+# get value at cell location
+print(df_students.iloc[0, 1])
+
+# deep copy dataframe
+df_students_copy = df_students.copy()
+print(df_students_copy)
+
+# get null value
+print(df_students.isnull())
+# assign cell value
+df_students.loc[2, 'firstname'] = "bean"
+print(df_students)
+# get mean value of a column
+print(df_students[['age']].mean())
+
+# get sum of a column
+print(df_students[['age']].sum())
+
+test_path = r"D:\project\python\test1\test2.py"
+
+print(os.path.dirname(test_path))
+print(os.path.basename(test_path))
+
+//10 decorators to learn
+https://towardsdatascience.com/12-python-decorators-to-take-your-code-to-the-next-level-a910a1ab3e99
+
+//geopandas examples
+https://justinmorganwilliams.medium.com/gis-project-with-geopandas-56a83aa89dbc
+
+//gdal ogr query
+https://gdal.org/user/ogr_sql_dialect.html
+
+SELECT PK_UID,
+           ... > Area(Geometry), AsText(Centroid(Geometry)),
+           ... > Dimension(Geometry), GeometryType(Geometry)
+           ... > FROM Regions ORDER BY Area(Geometry) DESC LIMIT 5;
+INSERT INTO my_rtree SELECT fid, ST_MinX(geom), ST_MaxX(geom), ST_MinY(geom), ST_MaxY(geom) FROM the_table.
+
+SELECT * FROM nation WHERE OGR_GEOM_AREA > 10000000
+//sqlite query examples
+https://trac.osgeo.org/gdal/browser/trunk/autotest/ogr/ogr_sql_sqlite.py
+ sql_lyr = ds.ExecuteSQL( "SELECT MAX(ST_Length(GEOMETRY)) FROM POLY", dialect = 'SQLite' )
+ 
+//sqlalchemy
+https://betterprogramming.pub/how-to-execute-plain-sql-queries-with-sqlalchemy-627a3741fdb1
+
+//sqlalchemy how to perform bulk insert
+https://towardsdatascience.com/how-to-perform-bulk-inserts-with-sqlalchemy-efficiently-in-python-23044656b97d
+
+//sqlite3 bulk insert
+https://www.educba.com/sqlite-bulk-insert/
+
+//multiprocessing
+I got an error AttributeError: 'module' object has no attribute 'Process'
+This is because I named the python file as multiprocessing.py and it will compile to multiprocessing.pyc
+To fix this delete multiprocessing.pyc and name the file as multiprocessing_example.py. I also got an 
+error when the name of the function wrong. Just fix the name of the function
+
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
