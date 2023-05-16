@@ -692,7 +692,22 @@ This is because I named the python file as multiprocessing.py and it will compil
 To fix this delete multiprocessing.pyc and name the file as multiprocessing_example.py. I also got an 
 error when the name of the function wrong. Just fix the name of the function
 
-//
+//What are differences between Multiprocessing Queue and Queue Module
+Multiprocessing Queue
+q = multiprocessing.Queue()
+Lives in shared memory
+Used to share data between processes
+
+Queue Module
+import queue
+q = queue.Queue()
+Lives in in-process memory
+Used to share data between threads
+
+
+//Two Processes or Threads share resource(Memory, Files, Databases, etc...)
+//Example Multiple people share same bathroom. Use Lock to share to avoid two people in at the same time causing problem
+
 
 
 
