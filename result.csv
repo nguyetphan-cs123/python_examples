@@ -1,0 +1,4 @@
+Field1,Field2,Field3,Field4
+Check Domain,FCODE,Additional Domain,"{1, 'test1'}"
+Check Domain,FCODE,Additional Domain,"{2, 'test2'}"
+Check Domain,FTYP,Additional Domain,"{2, 'test2'}"
